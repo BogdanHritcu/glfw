@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 // We don't need all the fancy stuff
 #ifndef NOMINMAX
  #define NOMINMAX
@@ -578,6 +582,10 @@ void _glfwSetWindowOpacityWin32(_GLFWwindow* window, float opacity);
 
 void _glfwSetRawMouseMotionWin32(_GLFWwindow *window, GLFWbool enabled);
 GLFWbool _glfwRawMouseMotionSupportedWin32(void);
+
+GLFWbool _glfwRegisterHotkeyWin32(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwUnregisterHotkeyWin32(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwHotkeySupportedWin32(void);
 
 void _glfwPollEventsWin32(void);
 void _glfwWaitEventsWin32(void);

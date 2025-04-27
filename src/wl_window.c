@@ -24,6 +24,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #define _GNU_SOURCE
 
 #include "internal.h"
@@ -2641,6 +2645,23 @@ void _glfwSetRawMouseMotionWayland(_GLFWwindow* window, GLFWbool enabled)
 GLFWbool _glfwRawMouseMotionSupportedWayland(void)
 {
     return GLFW_TRUE;
+}
+
+GLFWbool _glfwRegisterHotkeyWayland(_GLFWwindow* window, int key, int mods)
+{
+    _glfwInputError(GLFW_FEATURE_UNIMPLEMENTED, "Wayland: Hotkey feature is not implemented");
+    return GLFW_FALSE;
+}
+
+GLFWbool _glfwUnregisterHotkeyWayland(_GLFWwindow* window, int key, int mods)
+{
+    _glfwInputError(GLFW_FEATURE_UNIMPLEMENTED, "Wayland: Hotkey feature is not implemented");
+    return GLFW_FALSE;
+}
+
+GLFWbool _glfwHotkeySupportedWayland(void)
+{
+    return GLFW_FALSE;
 }
 
 void _glfwPollEventsWayland(void)

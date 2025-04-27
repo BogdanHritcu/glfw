@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 #include "mappings.h"
 
@@ -301,6 +305,22 @@ void _glfwInputKey(_GLFWwindow* window, int key, int scancode, int action, int m
 
     if (window->callbacks.key)
         window->callbacks.key((GLFWwindow*) window, key, scancode, action, mods);
+}
+
+// Notifies shared code of a registered hotkey event
+//
+void _glfwInputHotkey(_GLFWwindow* window, int key, int scancode, int mods)
+{
+    assert(window != NULL);
+    assert(key >= 0 || key == GLFW_KEY_UNKNOWN);
+    assert(key <= GLFW_KEY_LAST);
+    assert(mods == (mods & GLFW_MOD_MASK));
+
+    if (!window->lockKeyMods)
+        mods &= ~(GLFW_MOD_CAPS_LOCK | GLFW_MOD_NUM_LOCK);
+
+    if (window->callbacks.hotkey)
+        window->callbacks.hotkey((GLFWwindow*)window, key, scancode, mods);
 }
 
 // Notifies shared code of a Unicode codepoint input event
@@ -765,6 +785,46 @@ GLFWAPI int glfwGetKey(GLFWwindow* handle, int key)
     return (int) window->keys[key];
 }
 
+GLFWAPI int glfwRegisterHotkey(GLFWwindow* handle, int key, int mods)
+{
+    _GLFW_REQUIRE_INIT_OR_RETURN(GLFW_FALSE);
+
+    if (key < GLFW_KEY_SPACE || key > GLFW_KEY_LAST)
+    {
+        _glfwInputError(GLFW_INVALID_ENUM, "Invalid key %i", key);
+        return GLFW_FALSE;
+    }
+
+    _GLFWwindow* window = (_GLFWwindow*)handle;
+    assert(window != NULL);
+    assert(mods == (mods & GLFW_MOD_MASK));
+
+    return _glfw.platform.registerHotkey(window, key, mods);
+}
+
+GLFWAPI int glfwUnregisterHotkey(GLFWwindow* handle, int key, int mods)
+{
+    _GLFW_REQUIRE_INIT_OR_RETURN(GLFW_FALSE);
+
+    if (key < GLFW_KEY_SPACE || key > GLFW_KEY_LAST)
+    {
+        _glfwInputError(GLFW_INVALID_ENUM, "Invalid key %i", key);
+        return GLFW_FALSE;
+    }
+
+    _GLFWwindow* window = (_GLFWwindow*)handle;
+    assert(window != NULL);
+    assert(mods == (mods & GLFW_MOD_MASK));
+
+    return _glfw.platform.unregisterHotkey(window, key, mods);
+}
+
+GLFWAPI int glfwHotkeySupported(void)
+{
+    _GLFW_REQUIRE_INIT_OR_RETURN(GLFW_FALSE);
+    return _glfw.platform.hotkeySupported();
+}
+
 GLFWAPI int glfwGetMouseButton(GLFWwindow* handle, int button)
 {
     _GLFW_REQUIRE_INIT_OR_RETURN(GLFW_RELEASE);
@@ -961,6 +1021,17 @@ GLFWAPI GLFWkeyfun glfwSetKeyCallback(GLFWwindow* handle, GLFWkeyfun cbfun)
     assert(window != NULL);
 
     _GLFW_SWAP(GLFWkeyfun, window->callbacks.key, cbfun);
+    return cbfun;
+}
+
+GLFWAPI GLFWhotkeyfun glfwSetHotkeyCallback(GLFWwindow* handle, GLFWhotkeyfun cbfun)
+{
+    _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
+
+    _GLFWwindow* window = (_GLFWwindow*)handle;
+    assert(window != NULL);
+
+    _GLFW_SWAP(GLFWhotkeyfun, window->callbacks.hotkey, cbfun);
     return cbfun;
 }
 

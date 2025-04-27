@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 
 #if defined(_GLFW_X11)
@@ -2777,6 +2781,23 @@ void _glfwSetRawMouseMotionX11(_GLFWwindow *window, GLFWbool enabled)
 GLFWbool _glfwRawMouseMotionSupportedX11(void)
 {
     return _glfw.x11.xi.available;
+}
+
+GLFWbool _glfwRegisterHotkeyX11(_GLFWwindow* window, int key, int mods)
+{
+    _glfwInputError(GLFW_FEATURE_UNIMPLEMENTED, "X11: Hotkey feature is not implemented");
+    return GLFW_FALSE;
+}
+
+GLFWbool _glfwUnregisterHotkeyX11(_GLFWwindow* window, int key, int mods)
+{
+    _glfwInputError(GLFW_FEATURE_UNIMPLEMENTED, "X11: Hotkey feature is not implemented");
+    return GLFW_FALSE;
+}
+
+GLFWbool _glfwHotkeySupportedX11(void)
+{
+    return GLFW_FALSE;
 }
 
 void _glfwPollEventsX11(void)

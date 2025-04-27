@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #pragma once
 
 #if defined(_GLFW_USE_CONFIG_H)
@@ -578,6 +582,7 @@ struct _GLFWwindow
         GLFWcursorenterfun        cursorEnter;
         GLFWscrollfun             scroll;
         GLFWkeyfun                key;
+        GLFWhotkeyfun             hotkey;
         GLFWcharfun               character;
         GLFWcharmodsfun           charmods;
         GLFWdropfun               drop;
@@ -697,6 +702,9 @@ struct _GLFWplatform
     void (*setCursor)(_GLFWwindow*,_GLFWcursor*);
     const char* (*getScancodeName)(int);
     int (*getKeyScancode)(int);
+    GLFWbool (*registerHotkey)(_GLFWwindow*, int, int);
+    GLFWbool (*unregisterHotkey)(_GLFWwindow*, int, int);
+    GLFWbool (*hotkeySupported)(void);
     void (*setClipboardString)(const char*);
     const char* (*getClipboardString)(void);
     GLFWbool (*initJoysticks)(void);
@@ -932,6 +940,7 @@ void _glfwInputWindowMonitor(_GLFWwindow* window, _GLFWmonitor* monitor);
 
 void _glfwInputKey(_GLFWwindow* window,
                    int key, int scancode, int action, int mods);
+void _glfwInputHotkey(_GLFWwindow* window, int key, int scancode, int mods);
 void _glfwInputChar(_GLFWwindow* window,
                     uint32_t codepoint, int mods, GLFWbool plain);
 void _glfwInputScroll(_GLFWwindow* window, double xoffset, double yoffset);

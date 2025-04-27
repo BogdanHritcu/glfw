@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 
 #include <stdlib.h>
@@ -47,6 +51,9 @@ GLFWbool _glfwConnectNull(int platformID, _GLFWplatform* platform)
         .setCursorMode = _glfwSetCursorModeNull,
         .setRawMouseMotion = _glfwSetRawMouseMotionNull,
         .rawMouseMotionSupported = _glfwRawMouseMotionSupportedNull,
+        .registerHotkey = _glfwRegisterHotkeyNull,
+        .unregisterHotkey = _glfwUnregisterHotkeyNull,
+        .hotkeySupported = _glfwHotkeySupportedNull,
         .createCursor = _glfwCreateCursorNull,
         .createStandardCursor = _glfwCreateStandardCursorNull,
         .destroyCursor = _glfwDestroyCursorNull,

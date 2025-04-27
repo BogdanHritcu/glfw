@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 
 #include <stdlib.h>
@@ -425,6 +429,25 @@ void _glfwSetRawMouseMotionNull(_GLFWwindow *window, GLFWbool enabled)
 GLFWbool _glfwRawMouseMotionSupportedNull(void)
 {
     return GLFW_TRUE;
+}
+
+GLFWbool _glfwRegisterHotkeyNull(_GLFWwindow* window, int key, int mods)
+{
+    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+                    "Null: The platform does not support registering hotkeys");
+    return GLFW_FALSE;
+}
+
+GLFWbool _glfwUnregisterHotkeyNull(_GLFWwindow* window, int key, int mods)
+{
+    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+                    "Null: The platform does not support unregistering hotkeys");
+    return GLFW_FALSE;
+}
+
+GLFWbool _glfwHotkeySupportedNull(void)
+{
+    return GLFW_FALSE;
 }
 
 void _glfwShowWindowNull(_GLFWwindow* window)

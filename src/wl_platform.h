@@ -24,6 +24,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include <wayland-client-core.h>
 #include <xkbcommon/xkbcommon.h>
 #include <xkbcommon/xkbcommon-compose.h>
@@ -651,6 +655,10 @@ void _glfwSetWindowMousePassthroughWayland(_GLFWwindow* window, GLFWbool enabled
 
 void _glfwSetRawMouseMotionWayland(_GLFWwindow* window, GLFWbool enabled);
 GLFWbool _glfwRawMouseMotionSupportedWayland(void);
+
+GLFWbool _glfwRegisterHotkeyWayland(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwUnregisterHotkeyWayland(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwHotkeySupportedWayland(void);
 
 void _glfwPollEventsWayland(void);
 void _glfwWaitEventsWayland(void);

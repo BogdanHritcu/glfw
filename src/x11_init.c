@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 
 #if defined(_GLFW_X11)
@@ -1175,6 +1179,9 @@ GLFWbool _glfwConnectX11(int platformID, _GLFWplatform* platform)
         .setCursorMode = _glfwSetCursorModeX11,
         .setRawMouseMotion = _glfwSetRawMouseMotionX11,
         .rawMouseMotionSupported = _glfwRawMouseMotionSupportedX11,
+        .registerHotkey = _glfwRegisterHotkeyX11,
+        .unregisterHotkey = _glfwUnregisterHotkeyX11,
+        .hotkeySupported = _glfwHotkeySupportedX11,
         .createCursor = _glfwCreateCursorX11,
         .createStandardCursor = _glfwCreateStandardCursorX11,
         .destroyCursor = _glfwDestroyCursorX11,

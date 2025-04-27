@@ -24,6 +24,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 
 #if defined(_GLFW_WAYLAND)
@@ -444,6 +448,9 @@ GLFWbool _glfwConnectWayland(int platformID, _GLFWplatform* platform)
         .setCursorMode = _glfwSetCursorModeWayland,
         .setRawMouseMotion = _glfwSetRawMouseMotionWayland,
         .rawMouseMotionSupported = _glfwRawMouseMotionSupportedWayland,
+        .registerHotkey = _glfwRegisterHotkeyWayland,
+        .unregisterHotkey = _glfwUnregisterHotkeyWayland,
+        .hotkeySupported = _glfwHotkeySupportedWayland,
         .createCursor = _glfwCreateCursorWayland,
         .createStandardCursor = _glfwCreateStandardCursorWayland,
         .destroyCursor = _glfwDestroyCursorWayland,

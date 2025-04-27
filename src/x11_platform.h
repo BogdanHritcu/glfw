@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include <unistd.h>
 #include <signal.h>
 #include <stdint.h>
@@ -937,6 +941,10 @@ void _glfwSetWindowMousePassthroughX11(_GLFWwindow* window, GLFWbool enabled);
 
 void _glfwSetRawMouseMotionX11(_GLFWwindow *window, GLFWbool enabled);
 GLFWbool _glfwRawMouseMotionSupportedX11(void);
+
+GLFWbool _glfwRegisterHotkeyX11(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwUnregisterHotkeyX11(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwHotkeySupportedX11(void);
 
 void _glfwPollEventsX11(void);
 void _glfwWaitEventsX11(void);

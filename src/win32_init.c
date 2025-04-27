@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 
 #if defined(_GLFW_WIN32)
@@ -610,6 +614,9 @@ GLFWbool _glfwConnectWin32(int platformID, _GLFWplatform* platform)
         .setCursorMode = _glfwSetCursorModeWin32,
         .setRawMouseMotion = _glfwSetRawMouseMotionWin32,
         .rawMouseMotionSupported = _glfwRawMouseMotionSupportedWin32,
+        .registerHotkey = _glfwRegisterHotkeyWin32,
+        .unregisterHotkey = _glfwUnregisterHotkeyWin32,
+        .hotkeySupported = _glfwHotkeySupportedWin32,
         .createCursor = _glfwCreateCursorWin32,
         .createStandardCursor = _glfwCreateStandardCursorWin32,
         .destroyCursor = _glfwDestroyCursorWin32,

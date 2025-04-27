@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #include "internal.h"
 
 #if defined(_GLFW_WIN32)
@@ -797,6 +801,23 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
             else
                 _glfwInputKey(window, key, scancode, action, mods);
 
+            break;
+        }
+        case WM_HOTKEY: {
+            int hotkey_mods = LOWORD(lParam);
+            int mods = 0;
+            if (hotkey_mods & MOD_ALT)
+                mods |= GLFW_MOD_ALT;
+            if (hotkey_mods & MOD_CONTROL)
+                mods |= GLFW_MOD_CONTROL;
+            if (hotkey_mods & MOD_SHIFT)
+                mods |= GLFW_MOD_SHIFT;
+            if (hotkey_mods & MOD_WIN)
+                mods |= GLFW_MOD_SUPER;
+
+            int scancode = MapVirtualKeyW((UINT)HIWORD(lParam), MAPVK_VK_TO_VSC);
+            int key = _glfw.win32.keycodes[scancode];
+            _glfwInputHotkey(window, key, scancode, mods);
             break;
         }
 
@@ -2095,6 +2116,49 @@ void _glfwSetRawMouseMotionWin32(_GLFWwindow *window, GLFWbool enabled)
 }
 
 GLFWbool _glfwRawMouseMotionSupportedWin32(void)
+{
+    return GLFW_TRUE;
+}
+
+GLFWbool _glfwRegisterHotkeyWin32(_GLFWwindow* window, int key, int mods)
+{
+    int id = (key + mods) / 2 * (key + mods + 1) + mods;
+
+    // No support for repeat mode yet
+    UINT hotkey_mods = 0x4000 /*MOD_NOREPEAT*/;
+    if (mods & GLFW_MOD_ALT)
+        hotkey_mods |= MOD_ALT;
+    if (mods & GLFW_MOD_CONTROL)
+        hotkey_mods |= MOD_CONTROL;
+    if (mods & GLFW_MOD_SHIFT)
+        hotkey_mods |= MOD_SHIFT;
+    if (mods & GLFW_MOD_SUPER)
+        hotkey_mods |= MOD_WIN;
+
+    UINT scancode = _glfwGetKeyScancodeWin32(key);
+    UINT vk = MapVirtualKeyW(scancode, MAPVK_VSC_TO_VK);
+
+    if (!vk || !RegisterHotKey(window->win32.handle, id, hotkey_mods, vk))
+    {
+        return GLFW_FALSE;
+    }
+
+    return GLFW_TRUE;
+}
+
+GLFWbool _glfwUnregisterHotkeyWin32(_GLFWwindow* window, int key, int mods)
+{
+    int id = (key + mods) / 2 * (key + mods + 1) + mods;
+
+    if (!UnregisterHotKey(window->win32.handle, id))
+    {
+        return GLFW_FALSE;
+    }
+
+    return GLFW_TRUE;
+}
+
+GLFWbool _glfwHotkeySupportedWin32(void)
 {
     return GLFW_TRUE;
 }

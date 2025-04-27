@@ -26,6 +26,10 @@
  *
  *************************************************************************/
 
+ //========================================================================
+ // !!!!!!! THIS IS AN ALTERED SOURCE VERSION OF THE ORIGINAL FILE !!!!!!!
+ //========================================================================
+
 #ifndef _glfw3_h_
 #define _glfw3_h_
 
@@ -1896,6 +1900,22 @@ typedef void (* GLFWscrollfun)(GLFWwindow* window, double xoffset, double yoffse
  *  @ingroup input
  */
 typedef void (* GLFWkeyfun)(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+/*! @brief The function pointer type for hotkey callbacks.
+ *
+ *  This is the function pointer type for hotkey callbacks.
+ *  a hotkey callback function has the following signature:
+ *  @code
+ *  void function_name(GLFWwindow* window, int key, int scancode, int mods)
+ *  @endcode
+ *
+ *  @param[in] window The window that received the event.
+ *  @param[in] key The [keyboard key](@ref keys) that was pressed or released.
+ *  @param[in] scancode The platform-specific scancode of the key.
+ *  @param[in] mods Bit field describing which [modifier keys](@ref mods) were
+ *  held down.
+ */
+typedef void (*GLFWhotkeyfun)(GLFWwindow* window, int key, int scancode, int mods);
 
 /*! @brief The function pointer type for Unicode character callbacks.
  *
@@ -4906,6 +4926,73 @@ GLFWAPI int glfwGetKeyScancode(int key);
  */
 GLFWAPI int glfwGetKey(GLFWwindow* window, int key);
 
+/*! @brief Registers a hotkey for the specified window.
+ *
+ *  If hotkeys are not supported, attempting to use this
+ *  will emit @ref GLFW_FEATURE_UNAVAILABLE.  Call @ref
+ *  glfwHotkeySupported to check for support.
+ *
+ *  @param[in] window The window that is associated with the hotkey.
+ *  @param[in] key The [keyboard key](@ref keys) that has to be pressed.
+ *  @param[in] mods Bit field describing which [modifier keys](@ref mods) have
+ *  to be held down.
+ * 
+ *  @return `GLFW_TRUE` if the hotkey was registered successfully,
+ *  or `GLFW_FALSE` otherwise.
+ *
+ *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED, @ref
+ *  GLFW_INVALID_ENUM, @ref GLFW_PLATFORM_ERROR and @ref
+ *  GLFW_FEATURE_UNAVAILABLE (see above).
+ *
+ *  @thread_safety This function must only be called from the main thread.
+ *
+ *  @ingroup input
+ */
+GLFWAPI int glfwRegisterHotkey(GLFWwindow* window, int key, int mods);
+
+/*! @brief Unregisters a hotkey for the specified window.
+ *
+ *  If hotkeys are not supported, attempting to use this
+ *  will emit @ref GLFW_FEATURE_UNAVAILABLE.  Call @ref
+ *  glfwHotkeySupported to check for support.
+ *
+ *  @param[in] window The window that is associated with the hotkey.
+ *  @param[in] key The [keyboard key](@ref keys) that has to be pressed.
+ *  @param[in] mods Bit field describing which [modifier keys](@ref mods) have
+ *  to be held down.
+ *
+ *  @return `GLFW_TRUE` if the hotkey was unregistered successfully,
+ *  or `GLFW_FALSE` otherwise.
+ *
+ *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED, @ref
+ *  GLFW_INVALID_ENUM, @ref GLFW_PLATFORM_ERROR and @ref
+ *  GLFW_FEATURE_UNAVAILABLE (see above).
+ *
+ *  @thread_safety This function must only be called from the main thread.
+ *
+ *  @ingroup input
+ */
+GLFWAPI int glfwUnregisterHotkey(GLFWwindow* window, int key, int mods);
+
+/*! @brief Returns whether hotkeys are supported.
+ *
+ *  This function returns whether hotkeys are supported on the current
+ *  system.  This status does not change after GLFW has been initialized so you
+ *  only need to check this once.  If you attempt to register hotkeys on
+ *  a system that does not support it, @ref GLFW_PLATFORM_ERROR and @ref
+ *  GLFW_FEATURE_UNAVAILABLE will be emitted.
+ *
+ *  @return `GLFW_TRUE` if hotkeys are supported on the current machine,
+ *  or `GLFW_FALSE` otherwise.
+ *
+ *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED.
+ *
+ *  @thread_safety This function must only be called from the main thread.
+ *
+ *  @ingroup input
+ */
+GLFWAPI int glfwHotkeySupported(void);
+
 /*! @brief Returns the last reported state of a mouse button for the specified
  *  window.
  *
@@ -5205,6 +5292,30 @@ GLFWAPI void glfwSetCursor(GLFWwindow* window, GLFWcursor* cursor);
  *  @ingroup input
  */
 GLFWAPI GLFWkeyfun glfwSetKeyCallback(GLFWwindow* window, GLFWkeyfun callback);
+
+/*! @brief Sets the hotkey callback.
+ *
+ *  This function sets the hotkey callback of the specified window, which is called
+ *  when a hotkey is pressed.
+ *
+ *  @param[in] window The window whose callback to set.
+ *  @param[in] callback The new hotkey callback, or `NULL` to remove the currently
+ *  set callback.
+ *  @return The previously set callback, or `NULL` if no callback was set or the
+ *  library had not been [initialized](@ref intro_init).
+ *
+ *  @callback_signature
+ *  @code
+ *  void function_name(GLFWwindow* window, int key, int scancode, int mods)
+ *  @endcode
+ *  For more information about the callback parameters, see the
+ *  [function pointer type](@ref GLFWhotkeyfun).
+ *
+ *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED.
+ *
+ *  @thread_safety This function must only be called from the main thread.
+ */
+GLFWAPI GLFWhotkeyfun glfwSetHotkeyCallback(GLFWwindow* window, GLFWhotkeyfun callback);
 
 /*! @brief Sets the Unicode character callback.
  *

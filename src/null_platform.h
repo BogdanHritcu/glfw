@@ -25,6 +25,10 @@
 //
 //========================================================================
 
+//========================================================================
+// !!!!!!!!!!!! THIS FILE IS AN ALTERED SOURCE VERSION !!!!!!!!!!!!
+//========================================================================
+
 #define GLFW_NULL_WINDOW_STATE          _GLFWwindowNull null;
 #define GLFW_NULL_LIBRARY_WINDOW_STATE  _GLFWlibraryNull null;
 #define GLFW_NULL_MONITOR_STATE         _GLFWmonitorNull null;
@@ -247,6 +251,9 @@ float _glfwGetWindowOpacityNull(_GLFWwindow* window);
 void _glfwSetWindowOpacityNull(_GLFWwindow* window, float opacity);
 void _glfwSetRawMouseMotionNull(_GLFWwindow *window, GLFWbool enabled);
 GLFWbool _glfwRawMouseMotionSupportedNull(void);
+GLFWbool _glfwRegisterHotkeyNull(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwUnregisterHotkeyNull(_GLFWwindow* window, int key, int mods);
+GLFWbool _glfwHotkeySupportedNull(void);
 void _glfwShowWindowNull(_GLFWwindow* window);
 void _glfwRequestWindowAttentionNull(_GLFWwindow* window);
 void _glfwHideWindowNull(_GLFWwindow* window);
